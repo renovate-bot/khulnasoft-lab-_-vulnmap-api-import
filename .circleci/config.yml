@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  vulnmap: khulnasoft/vulnmap@1.1.2
 jobs:
   build-test-monitor:
     docker:
