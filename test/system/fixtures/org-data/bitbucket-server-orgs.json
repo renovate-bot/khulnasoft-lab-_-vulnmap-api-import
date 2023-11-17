@@ -1,0 +1,11 @@
+{
+  "orgData": [
+    {
+      "name": "antoine-vulnmap-demo",
+      "orgId": "<vulnmap_org_id>",
+      "integrations": {
+        "bitbucket-server": "<vulnmap_org_integration_id>"
+      }
+    }
+  ]
+}

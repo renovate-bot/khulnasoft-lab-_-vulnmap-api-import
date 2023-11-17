@@ -1,0 +1,11 @@
+{
+  "orgData": [
+    {
+      "name": "vulnmap-api-import-tool-test-org",
+      "orgId": "<vulnmap_org_id>",
+      "integrations": {
+        "gitlab": "<vulnmap_org_integration_id>"
+      }
+    }
+  ]
+}

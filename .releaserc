@@ -1,0 +1,89 @@
+{
+  "prepare": [
+    "@semantic-release/npm",
+    {
+      "//": "adds a file to identify a build as a standalone binary",
+      "path": "@semantic-release/exec",
+      "cmd": "echo '' > dist/STANDALONE"
+    },
+    {
+      "//": "build the macos",
+      "path": "@semantic-release/exec",
+      "cmd": "npx nexe@3.3.7 dist/index.js  -r './dist/**/*.js' -t mac-x64-12.18.2 -o vulnmap-api-import-macos"
+    },
+    {
+      "//": "build the linux",
+      "path": "@semantic-release/exec",
+      "cmd": "npx nexe@3.3.7 dist/index.js  -r './dist/**/*.js' -t linux-x64-12.16.2 -o vulnmap-api-import-linux"
+    },
+    {
+      "//": "build the alpine",
+      "path": "@semantic-release/exec",
+      "cmd": "npx nexe@3.3.7 dist/index.js  -r './dist/**/*.js' -t alpine-x64-12.9.1 -o vulnmap-api-import-alpine"
+    },
+    {
+      "//": "build the windows binaries",
+      "path": "@semantic-release/exec",
+      "cmd": "npx nexe@3.3.7 dist/index.js  -r './dist/**/*.js' -t windows-x64-12.18.2 -o vulnmap-api-import-win.exe"
+    },
+    {
+      "//": "shasum all binaries",
+      "path": "@semantic-release/exec",
+      "cmd": "shasum -a 256 vulnmap-api-import-linux > vulnmap-api-import-linux.sha256 && shasum -a 256 vulnmap-api-import-macos > vulnmap-api-import-macos.sha256 && shasum -a 256 vulnmap-api-import-win.exe > vulnmap-api-import-win.exe.sha256 && shasum -a 256 vulnmap-api-import-alpine > vulnmap-api-import-alpine.sha256"
+    },
+    {
+      "//": "removes the file we use to identify a build as a standalone binary",
+      "path": "@semantic-release/exec",
+      "cmd": "rm dist/STANDALONE"
+    }
+  ],
+  "publish": [
+    "@semantic-release/npm",
+    {
+      "path": "@semantic-release/github",
+      "assets": [
+        {
+          "path": "./vulnmap-api-import-linux",
+          "name": "vulnmap-api-import-linux",
+          "label": "vulnmap-api-import-linux"
+        },
+        {
+          "path": "./vulnmap-api-import-linux.sha256",
+          "name": "vulnmap-api-import-linux.sha256",
+          "label": "vulnmap-api-import-linux.sha256"
+        },
+        {
+          "path": "./vulnmap-api-import-alpine",
+          "name": "vulnmap-api-import-alpine",
+          "label": "vulnmap-api-import-alpine"
+        },
+        {
+          "path": "./vulnmap-api-import-alpine.sha256",
+          "name": "vulnmap-api-import-alpine.sha256",
+          "label": "vulnmap-api-import-alpine.sha256"
+        },
+        {
+          "path": "./vulnmap-api-import-macos",
+          "name": "vulnmap-api-import-macos",
+          "label": "vulnmap-api-import-macos"
+        },
+        {
+          "path": "./vulnmap-api-import-macos.sha256",
+          "name": "vulnmap-api-import-macos.sha256",
+          "label": "vulnmap-api-import-macos.sha256"
+        },
+        {
+          "path": "./vulnmap-api-import-win.exe",
+          "name": "vulnmap-api-import-win.exe",
+          "label": "vulnmap-api-import-win.exe"
+        },
+        {
+          "path": "./vulnmap-api-import-win.exe.sha256",
+          "name": "vulnmap-api-import-win.exe.sha256",
+          "label": "vulnmap-api-import-win.exe.sha256"
+        }
+      ]
+    }
+  ],
+  "branches": ["master"]
+}

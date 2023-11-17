@@ -1,0 +1,14 @@
+node_modules/
+npm-debug.log
+# output
+dist
+.DS_Store
+*.log
+.dccache
+*import-job-results.json
+package-lock.json
+yarn.lock
+.eslintcache
+local.*
+test/research
+.idea

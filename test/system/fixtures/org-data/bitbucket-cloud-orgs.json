@@ -1,0 +1,11 @@
+{
+  "orgData": [
+    {
+      "name": "vulnmaptestscmgroup",
+      "orgId": "<vulnmap_org_id>",
+      "integrations": {
+        "bitbucket-cloud": "<vulnmap_org_integration_id>"
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "pretty": true,
+    "target": "es2019",
+    "module": "commonjs",
+    "incremental": true,
+    "sourceMap": true,
+    "declaration": true,
+    "importHelpers": true,
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": ["./src/**/**/*"]
+}
