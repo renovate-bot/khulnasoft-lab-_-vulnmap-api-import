@@ -1,66 +1,72 @@
 version: 2.1
 orbs:
-    vulnmap: khulnasoft/vulnmap@1.1.2
+  vulnmap: khulnasoft/vulnmap@1.1.2
 jobs:
-    build-test-monitor:
-        docker:
-            - image: circleci/node:12
-        steps:
-            - checkout
-            - run: npm install
-            - run: npm test
-            - run: npx semantic-release
-    build-test:
-        docker:
-            - image: circleci/node:12
-        steps:
-            - checkout
-            - run: npm install
-            - run: npm test
-            - run: npx tsc
-            - run: npm run pkg-binaries-linux
-            - run: ./vulnmap-api-import-linux help
-    build-test-from-fork:
-        docker:
-            - image: circleci/node:12
-        steps:
-            - checkout
-            - run: npm install
-            - run: npm test
-            - run: npx tsc
+  build-test-monitor:
+    docker:
+      - image: 'circleci/node:12'
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm test
+      - run: npx semantic-release
+  build-test:
+    docker:
+      - image: 'circleci/node:12'
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm test
+      - run: npx tsc
+      - run: npm run pkg-binaries-linux
+      - run: ./vulnmap-api-import-linux help
+  build-test-from-fork:
+    docker:
+      - image: 'circleci/node:12'
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm test
+      - run: npx tsc
+  dredd:
+    docker:
+      - image: 'circleci/node:latest'
+    steps:
+      - checkout
+      - run: npm install dredd@14.1.0 --global
+      - run: dredd
 workflows:
-    version: 2
-    nightly:
-        triggers:
-          - schedule:
-              cron: "0 0 * * *"
-              filters:
-                branches:
-                  only:
-                    - master
-        jobs:
-            - build-test-monitor:
-                context: VULNMAP
-
-    build-test-monitor:
-        jobs:
-            - build-test-monitor:
-                context: VULNMAP
-                filters:
-                    branches:
-                        only:
-                            - master
-    build-test:
-        jobs:
-            - build-test:
-                context: VULNMAP
-                filters:
-                    branches:
-                        ignore:
-                        - master
-                        - /pull\/[0-9]+/
-            - build-test-from-fork:
-                filters:
-                    branches:
-                        only:
-                        - /pull\/[0-9]+/
+  version: 2
+  nightly:
+    triggers:
+      - schedule:
+          cron: 0 0 * * *
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - build-test-monitor:
+          context: VULNMAP
+  build-test-monitor:
+    jobs:
+      - build-test-monitor:
+          context: VULNMAP
+          filters:
+            branches:
+              only:
+                - master
+  build-test:
+    jobs:
+      - build-test:
+          context: VULNMAP
+          filters:
+            branches:
+              ignore:
+                - master
+                - '/pull\/[0-9]+/'
+      - build-test-from-fork:
+          filters:
+            branches:
+              only:
+                - '/pull\/[0-9]+/'
